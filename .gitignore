@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+
+# Secrets and local configuration
+.env
+
+# Source documents are downloaded by a script, never committed
+data/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
