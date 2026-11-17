@@ -32,8 +32,19 @@ def main(argv: list[str] | None = None) -> None:
 
     sources = load_sources(settings.sources_file)
     if args.command == "download":
-        downloaded = download_missing(sources, settings.data_dir)
-        print(f"downloaded {len(downloaded)} file(s)")
+        report = download_missing(sources, settings.data_dir)
+        print(
+            f"downloaded: {len(report.downloaded)}, already present: {len(report.already_present)}"
+        )
+        if report.failed:
+            by_id = {s.id: s for s in sources}
+            print(f"\nCould not download {len(report.failed)} file(s). Open each link in a browser")
+            print(f"and save the PDF in {settings.data_dir} under the name shown:\n")
+            for source_id, reason in report.failed.items():
+                source = by_id[source_id]
+                print(f"  {source.file}  ({reason})")
+                print(f"    {source.url or '(no link)'}")
+            parser.exit(1)
         return
 
     if args.only:
