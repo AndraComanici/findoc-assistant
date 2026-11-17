@@ -14,6 +14,7 @@ documents:
     ticker: TLV
     year: 2024
     title: Raportul anual 2024
+    url: https://www.bancatransilvania.ro/files/app/media/relatii-investitori/aga/2025/Situatii-Financiare-Consolidate-si-Individuale-la-31-decembrie-2024/Raport-ASF.pdf
     file: tlv-2024.pdf
 
   - id: tlv-2025
@@ -29,6 +30,7 @@ documents:
     ticker: H2O
     year: 2024
     title: Raportul anual 2024
+    url: https://m.bvb.ro/infocont/infocont25/H2O_20250430132056_H2O-RO-Raport-FY-2024-merged2.pdf
     file: h2o-2024.pdf
 
   - id: h2o-2025
@@ -36,6 +38,7 @@ documents:
     ticker: H2O
     year: 2025
     title: Raportul anual 2025
+    url: https://bvb.ro/infocont/infocont26/H2O_20260326221940_H2O-RO-Raport-FY-2025-merged.pdf
     file: h2o-2025.pdf
 
   - id: m-2024
@@ -43,6 +46,7 @@ documents:
     ticker: M
     year: 2024
     title: Raportul anual 2024
+    url: https://www.medlife.ro/sites/default/files/2025-03/Raport%20Anual%202024-combined_1_0.pdf
     file: m-2024.pdf
 
   - id: m-2025
@@ -50,4 +54,5 @@ documents:
     ticker: M
     year: 2025
     title: Raportul anual 2025
+    url: https://www.medlife.ro/sites/default/files/2026-03/RO_Raport%20anual%202025_final_Ro-combined.pdf
     file: m-2025.pdf
