@@ -13,6 +13,8 @@ dependencies = [
     "uvicorn[standard]>=0.30",
     "pydantic-settings>=2.4",
     "psycopg[binary]>=3.2",
+    "pypdf>=6.0",
+    "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]
@@ -20,13 +22,17 @@ dev = [
     "pytest>=8",
     "httpx2>=2.16",
     "ruff>=0.6",
+    "reportlab>=4.0",
 ]
 
-[tool.setuptools]
-packages = ["app"]
+[tool.setuptools.packages.find]
+include = ["app*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "integration: needs a PostgreSQL database with pgvector (set TEST_DATABASE_URL)",
+]
 
 [tool.ruff]
 line-length = 100

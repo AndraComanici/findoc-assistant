@@ -9,6 +9,9 @@ COPY pyproject.toml README.md ./
 COPY app ./app
 RUN pip install --no-cache-dir .
 
+COPY db ./db
+COPY corpus ./corpus
+
 RUN useradd --create-home appuser
 USER appuser
 

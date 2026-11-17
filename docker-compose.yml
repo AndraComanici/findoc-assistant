@@ -16,15 +16,30 @@ services:
       timeout: 3s
       retries: 10
 
+  # Applies database migrations once, then exits. The API starts only if it succeeded.
+  migrate:
+    build: .
+    command: ["python", "-m", "app.cli", "migrate"]
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-findoc}:${POSTGRES_PASSWORD:-findoc}@db:5432/${POSTGRES_DB:-findoc}
+    depends_on:
+      db:
+        condition: service_healthy
+
   api:
     build: .
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-findoc}:${POSTGRES_PASSWORD:-findoc}@db:5432/${POSTGRES_DB:-findoc}
     ports:
       - "8000:8000"
+    volumes:
+      # Source PDFs live on the host; ingestion reads them from here.
+      - ./data:/app/data
     depends_on:
       db:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     healthcheck:
       test:
         - CMD

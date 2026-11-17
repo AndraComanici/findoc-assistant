@@ -9,7 +9,7 @@ contain the answer.
 
 ## Stack
 
-Python · FastAPI · PostgreSQL + pgvector · Docker Compose · GitHub Actions
+Python · FastAPI · PostgreSQL + pgvector · pypdf · Docker Compose · GitHub Actions
 
 ## Run it locally
 
@@ -28,6 +28,28 @@ Then open:
 
 Stop with `Ctrl+C`. To also delete the database volume: `docker compose down -v`.
 
+## Load the documents
+
+The assistant answers from the annual reports listed in [corpus/sources.yaml](corpus/sources.yaml).
+The PDFs are not stored in this repository.
+
+1. Download each report from the company's investor relations page and save it in `data/raw/`
+   under the file name given in `sources.yaml` (for example `data/raw/tlv-2025.pdf`).
+   Entries that have a `url` can be downloaded automatically:
+
+   ```bash
+   docker compose run --rm api python -m app.cli download
+   ```
+
+2. With the stack running, extract, split and store the documents:
+
+   ```bash
+   docker compose run --rm api python -m app.cli ingest
+   ```
+
+   Ingestion is idempotent: a file that has not changed is skipped. Use `--force` to
+   re-process everything, or `--only tlv-2025` to process a single document.
+
 ## Run the tests
 
 Requirements: Python 3.12 or newer.
@@ -40,12 +62,20 @@ ruff check .
 pytest
 ```
 
+Integration tests need a PostgreSQL database with pgvector. They run in CI; locally, point
+`TEST_DATABASE_URL` at an empty database and run `pytest -m integration`. The tests drop and
+recreate the tables, so never use a database whose data you want to keep.
+
 ## Project layout
 
 ```
 app/                 application code (FastAPI)
+app/ingestion/       PDF extraction, text normalisation, chunking, storage
+corpus/              list of source documents
+data/raw/            downloaded PDFs (not committed)
+db/init/             SQL run when the database volume is first created
+db/migrations/       schema migrations, applied in order by `python -m app.cli migrate`
 tests/               automated tests
-db/init/             SQL run when the database is first created
 docs/adr/            architecture decision records
 .github/workflows/   continuous integration
 ```
