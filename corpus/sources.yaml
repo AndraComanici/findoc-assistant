@@ -1,0 +1,53 @@
+# Source documents for the assistant: annual reports of companies listed on the
+# Bucharest Stock Exchange (BVB), in Romanian.
+#
+# The PDF files are not committed. Put each one in data/raw/ under the name given in
+# `file`, or run `python -m app.cli download` for entries that have a `url`.
+#
+# id     lowercase ticker and year; used in logs and citations
+# file   bare file name inside data/raw/
+# url    direct link to the PDF, where known
+
+documents:
+  - id: tlv-2024
+    company: Banca Transilvania
+    ticker: TLV
+    year: 2024
+    title: Raportul anual 2024
+    file: tlv-2024.pdf
+
+  - id: tlv-2025
+    company: Banca Transilvania
+    ticker: TLV
+    year: 2025
+    title: Raportul anual 2025
+    url: https://www.bancatransilvania.ro/files/app/media/Relatii-Investitori/Adunare-Generala-Actionari/2026/Situatii-Financiare-Consolidate-Individuale-31-decembrie-2025/Raport-Autoritate-Supraveghere-Financiara.pdf
+    file: tlv-2025.pdf
+
+  - id: h2o-2024
+    company: Hidroelectrica
+    ticker: H2O
+    year: 2024
+    title: Raportul anual 2024
+    file: h2o-2024.pdf
+
+  - id: h2o-2025
+    company: Hidroelectrica
+    ticker: H2O
+    year: 2025
+    title: Raportul anual 2025
+    file: h2o-2025.pdf
+
+  - id: m-2024
+    company: MedLife
+    ticker: M
+    year: 2024
+    title: Raportul anual 2024
+    file: m-2024.pdf
+
+  - id: m-2025
+    company: MedLife
+    ticker: M
+    year: 2025
+    title: Raportul anual 2025
+    file: m-2025.pdf
