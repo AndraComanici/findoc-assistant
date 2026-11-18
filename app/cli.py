@@ -4,6 +4,7 @@ import argparse
 import logging
 
 from app.config import get_settings
+from app.embeddings import cosine_similarity, get_embedder
 from app.ingestion.download import download_missing
 from app.ingestion.pipeline import ingest
 from app.ingestion.sources import load_sources
@@ -15,6 +16,9 @@ def main(argv: list[str] | None = None) -> None:
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("migrate", help="apply pending database migrations")
     commands.add_parser("download", help="download source PDFs that are not on disk yet")
+    commands.add_parser(
+        "embed-check", help="embed a question and three passages and rank them by similarity"
+    )
     ingest_parser = commands.add_parser("ingest", help="extract, chunk and store source PDFs")
     ingest_parser.add_argument("--only", nargs="+", metavar="ID", help="ingest only these ids")
     ingest_parser.add_argument(
@@ -28,6 +32,10 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "migrate":
         applied = migrate(settings.database_url, settings.migrations_dir)
         print(f"applied {len(applied)} migration(s): {', '.join(applied) or '-'}")
+        return
+
+    if args.command == "embed-check":
+        embed_check(settings)
         return
 
     sources = load_sources(settings.sources_file)
@@ -65,6 +73,30 @@ def main(argv: list[str] | None = None) -> None:
         parser.exit(1, f"error: {exc}\n")
     for source_id, result in results.items():
         print(f"{source_id}: {result}")
+
+
+EMBED_CHECK_QUERY = "Cât profit a obținut banca anul trecut?"
+EMBED_CHECK_PASSAGES = [
+    "Producția de energie electrică a scăzut din cauza condițiilor hidrologice nefavorabile.",
+    "Rezultatul net al grupului bancar s-a ridicat la 3,2 miliarde lei în exercițiul financiar.",
+    "Rețeaua de clinici private a deservit mai mulți pacienți decât în anul precedent.",
+]
+
+
+def embed_check(settings) -> None:
+    """Show, on three passages, that similarity follows meaning rather than shared words."""
+    embedder = get_embedder(settings)
+    query = embedder.embed_query(EMBED_CHECK_QUERY)
+    passages = embedder.embed_documents(EMBED_CHECK_PASSAGES)
+    print(f"model: {embedder.model}, dimensions: {len(query)}")
+    print(f"question: {EMBED_CHECK_QUERY}\n")
+    ranked = sorted(
+        zip(EMBED_CHECK_PASSAGES, passages, strict=True),
+        key=lambda pair: cosine_similarity(query, pair[1]),
+        reverse=True,
+    )
+    for passage, vector in ranked:
+        print(f"{cosine_similarity(query, vector):.3f}  {passage}")
 
 
 if __name__ == "__main__":
