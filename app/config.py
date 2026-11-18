@@ -2,7 +2,9 @@
 
 from functools import lru_cache
 from pathlib import Path
+from typing import Literal
 
+from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -17,6 +19,13 @@ class Settings(BaseSettings):
     migrations_dir: Path = Path("db/migrations")
     chunk_max_words: int = 200
     chunk_overlap_words: int = 40
+
+    # Embeddings
+    embedding_provider: Literal["voyage", "fake"] = "voyage"
+    embedding_model: str = "voyage-4"
+    embedding_dimensions: int = 1024
+    embedding_batch_size: int = 64
+    voyage_api_key: SecretStr | None = None
 
 
 @lru_cache
