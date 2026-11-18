@@ -30,6 +30,8 @@ services:
     build: .
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-findoc}:${POSTGRES_PASSWORD:-findoc}@db:5432/${POSTGRES_DB:-findoc}
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-voyage}
+      VOYAGE_API_KEY: ${VOYAGE_API_KEY:-}
     ports:
       - "8000:8000"
     volumes:

@@ -9,7 +9,7 @@ contain the answer.
 
 ## Stack
 
-Python · FastAPI · PostgreSQL + pgvector · pypdf · Docker Compose · GitHub Actions
+Python · FastAPI · PostgreSQL + pgvector · pypdf · Voyage AI embeddings · Docker Compose · GitHub Actions
 
 ## Run it locally
 
@@ -50,6 +50,23 @@ The PDFs are not stored in this repository.
    Ingestion is idempotent: a file that has not changed is skipped. Use `--force` to
    re-process everything, or `--only tlv-2025` to process a single document.
 
+## Embeddings
+
+Passages and questions are turned into vectors by [Voyage AI](https://www.voyageai.com/)
+(`voyage-4`). Create a key at https://dash.voyageai.com and put it in `.env`:
+
+```
+VOYAGE_API_KEY=your-key
+```
+
+Check that it works; the passage about the bank's profit should rank first:
+
+```bash
+docker compose run --rm --build api python -m app.cli embed-check
+```
+
+Tests never call the API: they use a deterministic fake embedder (`EMBEDDING_PROVIDER=fake`).
+
 ## Run the tests
 
 Requirements: Python 3.12 or newer.
@@ -71,6 +88,7 @@ recreate the tables, so never use a database whose data you want to keep.
 ```
 app/                 application code (FastAPI)
 app/ingestion/       PDF extraction, text normalisation, chunking, storage
+app/embeddings/      embedding providers (Voyage AI, fake for tests)
 corpus/              list of source documents
 data/raw/            downloaded PDFs (not committed)
 db/init/             SQL run when the database volume is first created
