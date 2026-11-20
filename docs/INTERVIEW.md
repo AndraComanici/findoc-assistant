@@ -80,7 +80,7 @@ fragmente) sau pentru calcule pe date tabelare, unde SQL pe date structurate e m
 | Top-k | Primele k rezultate după scor, de exemplu cele mai apropiate 5 fragmente. |
 | pgvector | Extensie PostgreSQL care adaugă coloane de tip vector, operatori de distanță (`<=>`) și indexuri pentru căutare după similaritate. |
 | Bază de date vectorială dedicată | Sistem construit doar pentru vectori (Qdrant, Pinecone, Weaviate); merită la volume foarte mari. |
-| LLM | Large Language Model: model care generează text (Claude, ChatGPT, Gemini). |
+| LLM | Large Language Model: model care generează text (de exemplu ChatGPT, Gemini, Llama). |
 | Halucinație | Răspuns inventat de un LLM, spus cu siguranță. |
 | RAG | Retrieval-Augmented Generation: întâi cauți fragmentele relevante, apoi LLM-ul răspunde pe baza lor. |
 | Fereastra de context | Cât text poate lua în calcul un LLM într-un singur apel. |
