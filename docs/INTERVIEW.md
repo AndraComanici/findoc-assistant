@@ -8,9 +8,7 @@ La final e un glosar cu termenii folosiți.
 FinDoc Assistant răspunde la întrebări despre rapoartele anuale ale unor companii listate la
 Bursa de Valori București (Banca Transilvania, Hidroelectrica, MedLife), citând pagina din care
 provine fiecare informație. Folosește tehnica RAG: caută fragmentele relevante după sens, cu
-embeddings și pgvector, iar un LLM formulează răspunsul doar pe baza lor. Codul a fost generat
-cu un asistent AI; eu am luat deciziile de arhitectură, am făcut review la fiecare pull request,
-am verificat comportamentul prin experimente și am scris setul de întrebări de evaluare.
+embeddings și pgvector, iar un LLM formulează răspunsul doar pe baza lor.
 
 ## PR 1 – Scheletul
 
