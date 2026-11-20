@@ -65,6 +65,19 @@ Check that it works; the passage about the bank's profit should rank first:
 docker compose run --rm --build api python -m app.cli embed-check
 ```
 
+Then compute an embedding for every chunk:
+
+```bash
+docker compose run --rm api python -m app.cli embed --limit 50   # a short first try
+docker compose run --rm api python -m app.cli embed              # everything else
+```
+
+Indexing is resumable: stop it with `Ctrl+C` at any time and run the same command again to
+continue. By default it stays within Voyage AI's free-trial limits (3 requests and 10,000
+tokens per minute), so the full corpus takes about four hours. With a payment method on the
+Voyage account, raise `EMBEDDING_REQUESTS_PER_MINUTE` and `EMBEDDING_TOKENS_PER_MINUTE` in
+`.env` and it takes a few minutes.
+
 Tests never call the API: they use a deterministic fake embedder (`EMBEDDING_PROVIDER=fake`).
 
 ## Run the tests
