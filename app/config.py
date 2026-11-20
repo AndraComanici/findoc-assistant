@@ -25,6 +25,10 @@ class Settings(BaseSettings):
     embedding_model: str = "voyage-4"
     embedding_dimensions: int = 1024
     embedding_batch_size: int = 64
+    # Client-side limits, so that indexing never exceeds the provider's quota. The defaults
+    # match Voyage AI's free trial (no payment method): 3 requests and 10,000 tokens per minute.
+    embedding_requests_per_minute: int = 3
+    embedding_tokens_per_minute: int = 10_000
     voyage_api_key: SecretStr | None = None
 
 

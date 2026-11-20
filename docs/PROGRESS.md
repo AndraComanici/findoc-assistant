@@ -8,8 +8,8 @@ Fișier actualizat la fiecare pull request. Planul are 15 PR-uri, câte unul pe 
 |----|----------|-------|
 | 1 | Schelet: API cu verificări de sănătate, PostgreSQL + pgvector în Docker Compose, teste, CI | ✅ pe `main` |
 | 2 | Ingestie: surse, extragere pe pagini, normalizare, fragmentare, stocare idempotentă, migrări | ✅ pe `main` |
-| 3 | Interfața de embeddings + Voyage AI + embedder simulat pentru teste | în review |
-| 4 | Coloana de vectori + calcularea embeddings pe loturi, idempotent | |
+| 3 | Interfața de embeddings + Voyage AI + embedder simulat pentru teste | ✅ pe `main` |
+| 4 | Coloana de vectori + calcularea embeddings pe loturi, reluabilă, în limitele planului gratuit | în review |
 | 5 | Endpoint de căutare semantică, cu filtre pe companie și an | |
 | 6 | Interfața de LLM + furnizorul ales + LLM simulat | |
 | 7 | Răspuns cu citări și refuz; citări verificate în cod | |
@@ -36,6 +36,7 @@ Rapoartele anuale 2024 și 2025 ale Băncii Transilvania (TLV), Hidroelectrica (
 | Fragmente pe propoziții, în cadrul unei singure pagini, măsurate în cuvinte (200 / 40) | [0002](adr/0002-page-aware-sentence-chunking.md) |
 | Migrări în SQL simplu, aplicate de un runner propriu | [0003](adr/0003-plain-sql-migrations.md) |
 | Embeddings cu Voyage AI `voyage-4` (1024 dimensiuni), în spatele unei interfețe | [0004](adr/0004-voyage-embeddings-behind-an-interface.md) |
+| Indexare pe loturi, reluabilă, cu limitare de cereri; modelul salvat lângă vector | [0005](adr/0005-resumable-rate-limited-indexing.md) |
 
 ## Decizii deschise
 
@@ -45,6 +46,8 @@ Rapoartele anuale 2024 și 2025 ale Băncii Transilvania (TLV), Hidroelectrica (
 | Metoda de evaluare a răspunsurilor | PR 9 |
 
 ## Limite cunoscute
+
+- Pe planul gratuit Voyage (3 cereri și 10.000 de tokeni pe minut), indexarea completă durează aproximativ 4 ore.
 
 - Numărul paginii apare la începutul fragmentelor (se rezolvă în PR 10).
 - Tabelele își pierd structura la extragere (ADR 0002).
