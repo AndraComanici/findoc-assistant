@@ -5,12 +5,14 @@ from typing import Annotated
 
 from fastapi import Depends, FastAPI, HTTPException, status
 
+from app.api_search import router as search_router
 from app.config import Settings, get_settings
 from app.db import check_database
 
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="FinDoc Assistant", version="0.1.0")
+app.include_router(search_router)
 
 
 @app.get("/health")

@@ -80,6 +80,18 @@ Voyage account, raise `EMBEDDING_REQUESTS_PER_MINUTE` and `EMBEDDING_TOKENS_PER_
 
 Tests never call the API: they use a deterministic fake embedder (`EMBEDDING_PROVIDER=fake`).
 
+## Search
+
+With the stack running and the chunks embedded, open http://localhost:8000/docs, choose
+`GET /search`, click "Try it out", type a question and press "Execute". Or from a terminal:
+
+```bash
+curl -G http://localhost:8000/search --data-urlencode "q=Ce dividende a acordat Hidroelectrica?" -d k=3 -d ticker=H2O
+```
+
+The response lists the closest passages, best first, with a similarity score, the company,
+the year and the page. Optional filters: `ticker` (TLV, H2O, M) and `year`.
+
 ## Run the tests
 
 Requirements: Python 3.12 or newer.
