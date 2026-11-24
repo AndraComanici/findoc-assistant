@@ -9,8 +9,8 @@ Fișier actualizat la fiecare pull request. Planul are 15 PR-uri, câte unul pe 
 | 1 | Schelet: API cu verificări de sănătate, PostgreSQL + pgvector în Docker Compose, teste, CI | ✅ pe `main` |
 | 2 | Ingestie: surse, extragere pe pagini, normalizare, fragmentare, stocare idempotentă, migrări | ✅ pe `main` |
 | 3 | Interfața de embeddings + Voyage AI + embedder simulat pentru teste | ✅ pe `main` |
-| 4 | Coloana de vectori + calcularea embeddings pe loturi, reluabilă, în limitele planului gratuit | în review |
-| 5 | Endpoint de căutare semantică, cu filtre pe companie și an | |
+| 4 | Coloana de vectori + calcularea embeddings pe loturi, reluabilă, în limitele planului gratuit | ✅ pe `main` |
+| 5 | Endpoint de căutare semantică (`GET /search`), cu filtre pe companie și an | în review |
 | 6 | Interfața de LLM + furnizorul ales + LLM simulat | |
 | 7 | Răspuns cu citări și refuz; citări verificate în cod | |
 | 8 | Răspuns transmis în flux (streaming) | |
@@ -37,6 +37,7 @@ Rapoartele anuale 2024 și 2025 ale Băncii Transilvania (TLV), Hidroelectrica (
 | Migrări în SQL simplu, aplicate de un runner propriu | [0003](adr/0003-plain-sql-migrations.md) |
 | Embeddings cu Voyage AI `voyage-4` (1024 dimensiuni), în spatele unei interfețe | [0004](adr/0004-voyage-embeddings-behind-an-interface.md) |
 | Indexare pe loturi, reluabilă, cu limitare de cereri; modelul salvat lângă vector | [0005](adr/0005-resumable-rate-limited-indexing.md) |
+| Căutare exactă după similaritate cosinus, filtrată după model, companie și an | [0006](adr/0006-exact-cosine-search-endpoint.md) |
 
 ## Decizii deschise
 
@@ -48,6 +49,7 @@ Rapoartele anuale 2024 și 2025 ale Băncii Transilvania (TLV), Hidroelectrica (
 ## Limite cunoscute
 
 - Pe planul gratuit Voyage (3 cereri și 10.000 de tokeni pe minut), indexarea completă durează aproximativ 4 ore.
+- Fiecare căutare face un apel la Voyage; pe planul gratuit sunt cel mult 3 pe minut, împărțite cu indexarea.
 
 - Numărul paginii apare la începutul fragmentelor (se rezolvă în PR 10).
 - Tabelele își pierd structura la extragere (ADR 0002).
