@@ -22,7 +22,7 @@ docker compose up --build
 
 Then open:
 
-- http://localhost:8000/health – the API process is up
+- http://localhost:8000/health – the API process is up.
 - http://localhost:8000/health/ready – the API can reach the database and pgvector is installed
 - http://localhost:8000/docs – interactive API documentation
 
